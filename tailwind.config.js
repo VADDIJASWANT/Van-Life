@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       backgroundImage: {
-        'home-bg-img': "url('./src/assets/homeBG.png')",
+        'home-bg-img': "url('/src/assets/homeBG.png')",
       },
       minHeight:{
         'screen-fit':'calc(100vh - 96px)'
