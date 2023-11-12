@@ -16,7 +16,7 @@ export default function VanDetails(){
     }
     return(
         <div className="bg-cream-bg px-7 flex flex-col">
-            <p className="mt-10 ">← <Link to={'/vans'} className="underline">Back to all vans</Link></p>
+            <p className="mt-10 ">← <Link to={'..'} relative="path" className="underline">Back to all vans</Link></p>
             <img className="w-full h-3/5 mt-5 rounded" src={vandetails.imageUrl} />
             <p style={btnStyle} className=" mt-5 rounded text-white w-fit py-2 px-5">{vandetails?.type?.slice(0,1).toUpperCase() + vandetails?.type?.slice(1)}</p>
             <p className="text-3xl font-bold mt-5">{vandetails.name}</p>
