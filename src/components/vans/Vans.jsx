@@ -1,21 +1,28 @@
 import {React, useEffect, useState} from "react";
-import { NavLink, useSearchParams } from "react-router-dom";
+import { NavLink, useSearchParams,useLoaderData } from "react-router-dom";
 import VanCard from './vancard';
+import loadingVans from "../../api";
+
+export async function loader(){
+    return loadingVans()
+}
+
 export default function Vans(props){
-    const [vans,setVans] = useState([]);
+    const vans = useLoaderData()
+    // console.log(data);
+    // const [vans,setVans] = useState([]);
     const [searchParams, setSearchparams] = useSearchParams();
     const Searchtype = searchParams.get('type');
-    useEffect(() => {
-        fetch('/api/vans')
-        .then((res) => res.json())
-        .then((data) => {
-            let VansData = data.vans;
-            setVans(VansData)
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
-    },[])
+    // const [loading,setLoading] = useState(false);
+    // useEffect(() => {
+    //     async function gettingVans(){
+    //         setLoading(true)
+    //         const data = await loadingVans();
+    //         setVans(data);
+    //         setLoading(false)
+    //     }
+    //     gettingVans()
+    // },[])
 
     const DisplayVans = Searchtype ?
             vans.filter((van) => van.type.toLowerCase() === Searchtype.toLowerCase() )
@@ -24,12 +31,16 @@ export default function Vans(props){
     const vanHTML = DisplayVans.map((item) => {
         return(
             <>
-                <VanCard key={item.id} {...item} />
+                <VanCard key={item.id} {...item} filter={searchParams.toString()} filterType={Searchtype ? Searchtype : 'all'} />
             </>
         )
     })
 
-
+    // if(loading){
+    //     return(
+    //         <h1>Loading</h1>
+    //     )
+    // }
     
     return(
         <div className="bg-cream-bg flex min-h-screen-fit px-5 gap-5 flex-col">
@@ -39,10 +50,10 @@ export default function Vans(props){
                 <button onClick={() => setSearchparams({type:'simple'})} className="rounded bg-orange-100 hover:bg-orange-400 hover:text-white w-fit py-2 px-6">
                     Simple
                 </button>
-                <button onClick={() => setSearchparams({type:'luxury'})} className="rounded bg-orange-100 hover:bg-green-700 hover:text-white  w-fit py-2 px-6">
+                <button onClick={() => setSearchparams({type:'luxury'})} className="rounded bg-orange-100  hover:bg-black hover:text-white  w-fit py-2 px-6">
                     Luxury
                 </button>
-                <button onClick={() => setSearchparams({type:'rugged'})} className="rounded bg-orange-100 hover:bg-black hover:text-white w-fit py-2 px-6">
+                <button onClick={() => setSearchparams({type:'rugged'})} className="rounded bg-orange-100 hover:bg-green-700 hover:text-white w-fit py-2 px-6">
                     Rigged
                 </button>
                 { Searchtype ? <p onClick={() => setSearchparams({})} className="underline">Clear Filters</p>: ''}

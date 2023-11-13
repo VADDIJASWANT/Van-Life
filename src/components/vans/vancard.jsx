@@ -6,7 +6,7 @@ export default function VanCard(props){
     }
     
     return(
-        <Link to={`${props.id}`}>
+        <Link to={`${props.id}`} state={{search:props.filter, filterType : props.filterType}}>
             <div className="w-56 gap-2 flex flex-col">
                 <img className="rounded" src={props.imageUrl} />
                 <div className="flex items-start justify-between">

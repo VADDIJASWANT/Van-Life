@@ -1,9 +1,11 @@
 import {React,useEffect,useState} from "react";
-import { useParams,Link } from "react-router-dom";
+import { useParams,Link,useLocation } from "react-router-dom";
 export default function VanDetails(){
     const params = useParams()
     const id = params.id
     const [vandetails,setvanDetails] = useState([])
+    const location = useLocation();
+    console.log(location)
     useEffect(() => {
         fetch(`/api/vans/${id}`)
         .then((res) => res.json())
@@ -14,9 +16,11 @@ export default function VanDetails(){
     const btnStyle={
         'backgroundColor': vandetails.type == 'simple' ? '#E17654' : vandetails.type == 'rugged' ? '#115E59' : '#161616'
     }
+    const search = location.state?.search || '';
+    const BackBtnText = location.state?.filterType || 'all'
     return(
         <div className="bg-cream-bg px-7 flex flex-col">
-            <p className="mt-10 ">← <Link to={'..'} relative="path" className="underline">Back to all vans</Link></p>
+            <p className="mt-10 ">← <Link to={`..?${search}`} relative="path" className="underline">{`Back to ${BackBtnText} vans`}</Link></p>
             <img className="w-full h-3/5 mt-5 rounded" src={vandetails.imageUrl} />
             <p style={btnStyle} className=" mt-5 rounded text-white w-fit py-2 px-5">{vandetails?.type?.slice(0,1).toUpperCase() + vandetails?.type?.slice(1)}</p>
             <p className="text-3xl font-bold mt-5">{vandetails.name}</p>
